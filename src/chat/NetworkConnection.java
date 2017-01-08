@@ -28,6 +28,30 @@ public abstract class NetworkConnection {
         connectionThread.setDaemon(true);
     }
 
+    /**
+     * Starts the connection thread
+    */
+
+    public void startConnection() throws Exception {
+        connectionThread.start();
+    }
+
+    /**
+     * Sends the data
+    */
+
+    public void send(Serializable data) throws Exception {
+        connectionThread.objectOutputStream.writeObject(data);
+    }
+
+    /**
+     * Closes the connection thread
+    */
+
+    public void closeConnection() throws Exception {
+        connectionThread.socket.close();
+    }
+
 
     /**
      * Using Thread for input and output so that, both perform simultaneously
@@ -69,7 +93,7 @@ public abstract class NetworkConnection {
                 }
             }
             catch (Exception e) {
-                e.printStackTrace();
+                onReceiveCallback.accept("Connection Closed");
             }
 
         }
