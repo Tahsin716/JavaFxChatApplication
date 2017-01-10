@@ -50,6 +50,7 @@ public abstract class NetworkConnection {
 
     public void closeConnection() throws Exception {
         connectionThread.socket.close();
+        connectionThread.objectOutputStream.close();
     }
 
 

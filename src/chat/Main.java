@@ -37,6 +37,7 @@ public class Main extends Application {
     @Override
     public void stop() throws Exception {
         connection.closeConnection();
+        System.exit(0);
     }
 
     private Parent createContent() {
@@ -107,7 +108,7 @@ public class Main extends Application {
      * server or a client
      */
 
-    private void showDialog() {
+    private void showDialog() throws Exception {
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
         alert.setTitle("Confirmation Dialog with Custom Actions");
         alert.setHeaderText("Look, a Confirmation Dialog with Custom Actions");
@@ -120,8 +121,14 @@ public class Main extends Application {
         alert.getButtonTypes().setAll(buttonServer, buttonClient, buttonCancel);
         Optional<ButtonType> result = alert.showAndWait();
 
-        if(result.get() == buttonServer) { isServer = true; }
-        else if (result.get() == buttonClient) { isServer = false; }
+        if(result.get() == buttonServer) {
+            isServer = true;
+            connection.startConnection();
+        }
+        else if (result.get() == buttonClient) {
+            isServer = false;
+            connection.startConnection();
+        }
         else { System.exit(0); }
     }
 
