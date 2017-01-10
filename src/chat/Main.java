@@ -7,8 +7,12 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.TextArea;
 import javafx.stage.Stage;
+
+import java.util.Optional;
 
 public class Main extends Application {
 
@@ -18,6 +22,11 @@ public class Main extends Application {
     //Referring to the input TextArea
     @FXML
     TextArea input;
+
+    @Override
+    public void init() throws Exception {
+
+    }
 
     @Override
     public void start(Stage primaryStage) throws Exception{
@@ -86,6 +95,25 @@ public class Main extends Application {
         catch (Exception e) {
             display.appendText("Failed to send\n");
         }
+    }
+
+    /**
+     * Dialog box for confirming whether user wants to create
+     * server or a client
+     */
+
+    private void showDialog() {
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setTitle("Confirmation Dialog with Custom Actions");
+        alert.setHeaderText("Look, a Confirmation Dialog with Custom Actions");
+        alert.setContentText("Choose your option.");
+
+        ButtonType buttonTypeOne = new ButtonType("Server");
+        ButtonType buttonTypeTwo = new ButtonType("Client");
+        ButtonType buttonTypeThree = new ButtonType("Cancel");
+
+
+        Optional<ButtonType> result = alert.showAndWait();
     }
 
 
