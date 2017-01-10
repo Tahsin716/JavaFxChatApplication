@@ -12,9 +12,10 @@ import javafx.stage.Stage;
 
 public class Main extends Application {
 
+    //Referring to the display TextArea
     @FXML
     TextArea display;
-
+    //Referring to the input TextArea
     @FXML
     TextArea input;
 
@@ -28,7 +29,7 @@ public class Main extends Application {
 
 
     //Determines whether server of client is to be created
-    public static boolean isServer = false;
+    private  boolean isServer = false;
 
 
     //Connection should be either server or client
@@ -37,6 +38,8 @@ public class Main extends Application {
 
     /**
      * Creates connection as server
+     * Platform.runLater(): If you need to update a GUI component from a non-GUI thread,
+     * you can use that to put your update in a queue and it will be handled by the GUI thread as soon as possible.
      *
      * @return
      */
