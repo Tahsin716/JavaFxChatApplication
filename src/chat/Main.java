@@ -10,32 +10,58 @@ import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.TextArea;
+import javafx.scene.control.TextField;
+import javafx.scene.layout.VBox;
+import javafx.scene.text.Font;
 import javafx.stage.Stage;
 
 import java.util.Optional;
 
 public class Main extends Application {
 
-    //Referring to the display TextArea
-    @FXML
-    TextArea display;
-    //Referring to the input TextArea
-    @FXML
-    TextArea input;
+    private TextArea display = new TextArea();
+
 
     @Override
     public void init() throws Exception {
-
+        connection.startConnection();
     }
 
     @Override
     public void start(Stage primaryStage) throws Exception{
-        Parent root = FXMLLoader.load(getClass().getResource("chat_ui.fxml"));
         primaryStage.setTitle("Hello World");
-        primaryStage.setScene(new Scene(root, 661, 531));
+        primaryStage.setScene(new Scene(createContent()));
         primaryStage.show();
     }
 
+    @Override
+    public void stop() throws Exception {
+        connection.closeConnection();
+    }
+
+    private Parent createContent() {
+        display.setFont(Font.font(14));
+        display.setPrefHeight(550);
+        TextField input = new TextField();
+        input.setOnAction(event -> {
+            String message = isServer ? "Server: " : "Client: ";
+            message += input.getText();
+            input.clear();
+
+            display.appendText(message + "\n");
+
+            try {
+                connection.send(message);
+            }
+            catch (Exception e) {
+                display.appendText("Failed to send\n");
+            }
+        });
+
+        VBox root = new VBox(20, display, input);
+        root.setPrefSize(600, 600);
+        return root;
+    }
 
     //Determines whether server of client is to be created
     private  boolean isServer = false;
@@ -54,7 +80,7 @@ public class Main extends Application {
      */
 
     private Server createServer() {
-        return new Server(50000, data -> {
+        return new Server(55555, data -> {
             Platform.runLater(() -> {
                 display.appendText(data.toString() + "\n");
             });
@@ -68,34 +94,13 @@ public class Main extends Application {
      */
 
     private Client createClient() {
-        return new Client("27.147.226.68", 50000, data -> {
+        return new Client("127.0.0.1", 55555, data -> {
             Platform.runLater(() -> {
                 display.appendText(data.toString() + "\n");
             });
         });
     }
 
-    /**
-     * On send button clicked
-     *
-     * @param event
-     */
-
-    @FXML
-    private void onSendClicked(ActionEvent event) {
-        String message = isServer ? "Server: " : "Client: ";
-        message += input.getText();
-        input.clear();
-
-        display.appendText(message + "\n");
-
-        try {
-            connection.send(message);
-        }
-        catch (Exception e) {
-            display.appendText("Failed to send\n");
-        }
-    }
 
     /**
      * Dialog box for confirming whether user wants to create
