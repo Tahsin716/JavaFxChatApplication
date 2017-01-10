@@ -27,8 +27,8 @@ public class Main extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception{
-        //primaryStage.setTitle("Client Chat App");
-        primaryStage.setTitle("Server Chat App");
+        primaryStage.setTitle("Client Chat App");
+        //primaryStage.setTitle("Server Chat App");
         primaryStage.getIcons().add(new Image("resources/chat_logo.png"));
         primaryStage.setScene(new Scene(createContent()));
         primaryStage.show();
@@ -74,7 +74,7 @@ public class Main extends Application {
     }
 
     //Determines whether server of client is to be created
-    public boolean isServer = true;
+    public boolean isServer = false;
 
 
     //Connection should be either server or client
