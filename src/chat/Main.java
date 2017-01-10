@@ -9,6 +9,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
@@ -26,7 +27,9 @@ public class Main extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception{
-        primaryStage.setTitle("Hello World");
+        //primaryStage.setTitle("Client Chat App");
+        primaryStage.setTitle("Server Chat App");
+        primaryStage.getIcons().add(new Image("resources/chat_logo.png"));
         primaryStage.setScene(new Scene(createContent()));
         primaryStage.show();
     }
