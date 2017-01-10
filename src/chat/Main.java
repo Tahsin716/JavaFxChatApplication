@@ -2,6 +2,7 @@ package chat;
 
 import javafx.application.Application;
 import javafx.application.Platform;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -60,6 +61,28 @@ public class Main extends Application {
                 display.appendText(data.toString() + "\n");
             });
         });
+    }
+
+    /**
+     * On send button clicked
+     *
+     * @param event
+     */
+
+    @FXML
+    private void onSendClicked(ActionEvent event) {
+        String message = isServer ? "Server: " : "Client: ";
+        message += input.getText();
+        input.clear();
+
+        display.appendText(message + "\n");
+
+        try {
+            connection.send(message);
+        }
+        catch (Exception e) {
+            display.appendText("Failed to send\n");
+        }
     }
 
 
