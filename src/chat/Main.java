@@ -108,12 +108,16 @@ public class Main extends Application {
         alert.setHeaderText("Look, a Confirmation Dialog with Custom Actions");
         alert.setContentText("Choose your option.");
 
-        ButtonType buttonTypeOne = new ButtonType("Server");
-        ButtonType buttonTypeTwo = new ButtonType("Client");
-        ButtonType buttonTypeThree = new ButtonType("Cancel");
+        ButtonType buttonServer = new ButtonType("Server");
+        ButtonType buttonClient = new ButtonType("Client");
+        ButtonType buttonCancel = new ButtonType("Cancel");
 
-
+        alert.getButtonTypes().setAll(buttonServer, buttonClient, buttonCancel);
         Optional<ButtonType> result = alert.showAndWait();
+
+        if(result.get() == buttonServer) { isServer = true; }
+        else if (result.get() == buttonClient) { isServer = false; }
+        else { System.exit(0); }
     }
 
 
