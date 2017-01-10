@@ -2,20 +2,17 @@ package chat;
 
 import javafx.application.Application;
 import javafx.application.Platform;
-import javafx.event.ActionEvent;
-import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
+import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert;
-import javafx.scene.control.ButtonType;
+import javafx.scene.control.Button;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
 
-import java.util.Optional;
 
 public class Main extends Application {
 
@@ -37,14 +34,21 @@ public class Main extends Application {
     @Override
     public void stop() throws Exception {
         connection.closeConnection();
-        System.exit(0);
     }
 
     private Parent createContent() {
+
         display.setFont(Font.font(14));
-        display.setPrefHeight(550);
+        display.setPrefHeight(450);
+        display.setEditable(false);
+
         TextField input = new TextField();
-        input.setOnAction(event -> {
+        input.setPrefHeight(50);
+        input.setPrefWidth(300);
+
+        Button send = new Button("Send");
+        send.setAlignment(Pos.CENTER);
+        send.setOnAction(event -> {
             String message = isServer ? "Server: " : "Client: ";
             message += input.getText();
             input.clear();
@@ -59,13 +63,15 @@ public class Main extends Application {
             }
         });
 
-        VBox root = new VBox(20, display, input);
+        VBox root = new VBox(20, display, input, send);
+        root.setMargin(input, new Insets(0,5,0,5));
+        root.setMargin(send, new Insets(20,0,50,270));
         root.setPrefSize(600, 600);
         return root;
     }
 
     //Determines whether server of client is to be created
-    private  boolean isServer = false;
+    public boolean isServer = true;
 
 
     //Connection should be either server or client
@@ -102,35 +108,6 @@ public class Main extends Application {
         });
     }
 
-
-    /**
-     * Dialog box for confirming whether user wants to create
-     * server or a client
-     */
-
-    private void showDialog() throws Exception {
-        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-        alert.setTitle("Confirmation Dialog with Custom Actions");
-        alert.setHeaderText("Look, a Confirmation Dialog with Custom Actions");
-        alert.setContentText("Choose your option.");
-
-        ButtonType buttonServer = new ButtonType("Server");
-        ButtonType buttonClient = new ButtonType("Client");
-        ButtonType buttonCancel = new ButtonType("Cancel");
-
-        alert.getButtonTypes().setAll(buttonServer, buttonClient, buttonCancel);
-        Optional<ButtonType> result = alert.showAndWait();
-
-        if(result.get() == buttonServer) {
-            isServer = true;
-            connection.startConnection();
-        }
-        else if (result.get() == buttonClient) {
-            isServer = false;
-            connection.startConnection();
-        }
-        else { System.exit(0); }
-    }
 
 
     /**

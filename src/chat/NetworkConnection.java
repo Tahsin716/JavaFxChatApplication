@@ -1,10 +1,14 @@
 package chat;
 
+import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
+
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.Optional;
 import java.util.function.Consumer;
 
 public abstract class NetworkConnection {
@@ -49,9 +53,10 @@ public abstract class NetworkConnection {
     */
 
     public void closeConnection() throws Exception {
-        connectionThread.socket.close();
         connectionThread.objectOutputStream.close();
+        connectionThread.socket.close();
     }
+
 
 
     /**
